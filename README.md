@@ -1,2 +1,2 @@
 # myQTvideo
-Make a MediaPlayer in QT C==
+Make a MediaPlayer in QT C++
