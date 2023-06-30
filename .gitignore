@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+#maloi
+build/**
+.vscode/**
+CMakeLists.txt.user*
+CMakeLists.txt.user

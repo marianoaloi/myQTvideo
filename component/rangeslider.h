@@ -10,11 +10,11 @@
 class RangeSlider : public QSlider
 {
 
-
     void paintEvent(QPaintEvent *ev);
 
 public:
     RangeSlider();
+
 private:
     QStyle::SubControl pressed_control;
     int tick_interval;

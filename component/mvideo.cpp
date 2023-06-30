@@ -15,3 +15,12 @@ MVideo::~MVideo()
 {
     delete ui;
 }
+
+void MVideo::openVideo(){
+    QFileDialog filename(this);
+    filename.setFileMode(QFileDialog::FileMode::Directory);
+    directory = filename.getExistingDirectory(this,"Open Video", directory,QFileDialog::Option::ShowDirsOnly);
+    if(!directory.isEmpty()){
+    cout << directory.toStdString() << "\n";
+    }
+}
