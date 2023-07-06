@@ -6,21 +6,33 @@
 #include <QWidget>
 #include <QPainter>
 #include <QStyleOptionSlider>
+#include <QApplication>
+#include <algorithm>
+
+using namespace std;
 
 class RangeSlider : public QSlider
 {
 
-    void paintEvent(QPaintEvent *ev);
+  virtual  void paintEvent(QPaintEvent *ev);
 
 public:
     RangeSlider();
+    int low();
+    void setLow(int low);
+    int high();
+    void setHigh(int high);
 
 private:
     QStyle::SubControl pressed_control;
-    int tick_interval;
     QSlider::TickPosition tick_position;
     QStyle::SubControl hover_control;
+    int _low;
+    int _high;
+    int tick_interval;
     int click_offset;
+    int active_slider;
+    int RangeSlider::__pick(QPoint pt);
 };
 
 #endif // RANGESLIDER_H
