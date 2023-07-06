@@ -64,8 +64,8 @@ void RangeSlider::paintEvent(QPaintEvent *ev)
     opt.sliderPosition = this->_high;
     QRect high_rect = styleSlide->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderHandle, this);
 
-    int low_pos = __pick(low_rect.center());
-    int high_pos = __pick(high_rect.center());
+    int low_pos = pick(low_rect.center());
+    int high_pos = pick(high_rect.center());
 
     int min_pos = min(low_pos, high_pos);
     int max_pos = max(low_pos, high_pos);
@@ -73,7 +73,7 @@ void RangeSlider::paintEvent(QPaintEvent *ev)
     c = QRect(low_rect.center(),high_rect.center()).center();
 }
 
-int RangeSlider::__pick(QPoint pt)
+int RangeSlider::pick(QPoint pt)
 {
     if (this->orientation() == Qt::Horizontal)
     {

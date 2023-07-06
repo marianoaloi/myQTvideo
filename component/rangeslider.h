@@ -32,7 +32,7 @@ private:
     int tick_interval;
     int click_offset;
     int active_slider;
-    int RangeSlider::__pick(QPoint pt);
+    int RangeSlider::pick(QPoint pt);
 };
 
 #endif // RANGESLIDER_H
