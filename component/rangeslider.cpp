@@ -71,6 +71,14 @@ void RangeSlider::paintEvent(QPaintEvent *ev)
     int max_pos = max(low_pos, high_pos);
 
     QPoint c = QRect(low_rect.center(),high_rect.center()).center();
+
+    QRect span_rect;
+    if (opt.orientation == Qt::Horizontal){
+        span_rect = QRect(QPoint(min_pos,c.y() -2),QPoint(max_pos,c.y() +1));
+    }else{
+
+        span_rect = QRect(QPoint(c.x() -2,min_pos),QPoint(c.x() +1,max_pos));
+    }
 }
 
 int RangeSlider::pick(QPoint pt)
