@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QStyleOptionSlider>
 #include <QApplication>
+#include <QMouseEvent>
 #include <QPalette>
 #include <algorithm>
 
@@ -16,6 +17,8 @@ class RangeSlider : public QSlider
 {
 
   virtual  void paintEvent(QPaintEvent *ev);
+  virtual void mouseMoveEvent(QMouseEvent *ev);
+  virtual void mousePressEvent(QMouseEvent *ev);
 
 public:
     RangeSlider();
@@ -33,7 +36,8 @@ private:
     int tick_interval;
     int click_offset;
     int active_slider;
-    int RangeSlider::pick(QPoint pt);
+    int pick(QPoint pt);
+    int pixelPosToRangeValue(int pos);
 };
 
 #endif // RANGESLIDER_H

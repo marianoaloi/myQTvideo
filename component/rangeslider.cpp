@@ -93,32 +93,144 @@ void RangeSlider::paintEvent(QPaintEvent *ev)
     painter.setPen(QPen(highlight, 0));
     painter.drawRect(span_rect.intersected(groove));
 
-    delete &opt;
     for (int value = _low; value < _high; value++)
     {
-       
+
+        QStyleOptionSlider opt;
+        this->initStyleOption(&opt);
+
+        opt.subControls = QStyle::SC_SliderHandle;
+
+        if (this->tickPosition() != this->NoTicks)
+        {
+            opt.subControls |= QStyle::SC_SliderTickmarks;
+        }
+
+        if (this->pressed_control)
+        {
+            opt.activeSubControls = pressed_control;
+        }
+        else
+        {
+            opt.activeSubControls = hover_control;
+        }
+        opt.sliderPosition = value;
+        opt.sliderValue = value;
+        styleSlide->drawComplexControl(QStyle::CC_Slider, &opt, &painter, this);
+    }
+}
+
+void RangeSlider::mousePressEvent(QMouseEvent *ev)
+{
+    ev->accept();
+    QStyle *styleSlide = QApplication::style();
+    Qt::MouseButton button = ev->button();
+
+    if (button != 0L)
+    {
+
+        QStyleOptionSlider opt;
+        this->initStyleOption(&opt);
+        active_slider = -1;
+        for (int value = _low; value < _high; value++)
+        {
+
+            opt.sliderPosition = value;
+            QStyle::SubControl hit = styleSlide->hitTestComplexControl(QStyle::CC_Slider, &opt, ev->pos(), this);
+            if (hit == styleSlide->SC_SliderHandle)
+            {
+                active_slider = value - _low;
+                pressed_control = hit;
+
+                triggerAction(SliderMove);
+                setRepeatAction(SliderNoAction);
+                setSliderDown(true);
+                break;
+            }
+        }
+        if (active_slider < 0)
+        {
+            pressed_control = QStyle::SC_SliderHandle;
+            click_offset = pixelPosToRangeValue(pick(ev->pos()));
+            triggerAction(SliderMove);
+            setRepeatAction(SliderNoAction);
+        }
+    }
+    else
+    {
+        ev->ignore();
+    }
+}
+void RangeSlider::mouseMoveEvent(QMouseEvent *ev)
+{
+    if (pressed_control != QStyle::SC_SliderHandle)
+    {
+        ev->ignore();
+        return;
+    }
+
+    ev->accept();
+    int new_pos = pixelPosToRangeValue(pick(ev->pos()));
     QStyleOptionSlider opt;
     this->initStyleOption(&opt);
 
- 
-        opt.subControls = QStyle::SC_SliderHandle;
-    
-    if (this->tickPosition() != this->NoTicks)
+    if (active_slider < 0)
     {
-        opt.subControls |= QStyle::SC_SliderTickmarks;
+        int offset = new_pos - click_offset;
+        _high += offset;
+        _low += offset;
+        if (_low < minimum())
+        {
+            int diff = minimum() - _low;
+            _low += diff;
+            _high += diff;
+        }
+        if (_high > maximum()){
+            int diff = minimum() - _high;
+            _low += diff;
+            _high += diff;
+        }
     }
+    else if (active_slider == 0)
+    {
+        if (new_pos >= _high)
+            new_pos = _high - 1;
+        _low = new_pos;
+    }
+    else
+    {
+        if (new_pos <= _low)
+            new_pos = _low + 1;
+        _high = new_pos;
+    }
+}
 
-    if (this->pressed_control){
-        opt.activeSubControls = pressed_control;
-    }else{
-        opt.activeSubControls = hover_control;
+int RangeSlider::pixelPosToRangeValue(int pos)
+{
+    QStyle *styleSlide = QApplication::style();
+    QStyleOptionSlider opt;
+    this->initStyleOption(&opt);
+
+    QRect gr = styleSlide->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderGroove, this);
+    QRect sr = styleSlide->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderHandle, this);
+
+    int slider_length;
+    int slider_min;
+    int slider_max;
+
+    if (opt.orientation == Qt::Horizontal)
+    {
+        slider_length = sr.width();
+        slider_min = gr.x();
+        slider_max = gr.right() - slider_length + 1;
     }
-    opt.sliderPosition = value;
-    opt.sliderValue = value;
-    styleSlide->drawComplexControl(QStyle::CC_Slider,&opt,&painter,this);
-       
+    else
+    {
+        slider_length = sr.height();
+        slider_min = gr.y();
+        slider_max = gr.bottom() - slider_length + 1;
     }
-    
+    return styleSlide->sliderValueFromPosition(minimum(), maximum(), pos - slider_min, slider_max - slider_min, opt.upsideDown);
 }
 
 int RangeSlider::pick(QPoint pt)
