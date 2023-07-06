@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QStyleOptionSlider>
 #include <QApplication>
+#include <QPalette>
 #include <algorithm>
 
 using namespace std;

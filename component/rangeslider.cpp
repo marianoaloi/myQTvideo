@@ -70,15 +70,55 @@ void RangeSlider::paintEvent(QPaintEvent *ev)
     int min_pos = min(low_pos, high_pos);
     int max_pos = max(low_pos, high_pos);
 
-    QPoint c = QRect(low_rect.center(),high_rect.center()).center();
+    QPoint c = QRect(low_rect.center(), high_rect.center()).center();
 
     QRect span_rect;
-    if (opt.orientation == Qt::Horizontal){
-        span_rect = QRect(QPoint(min_pos,c.y() -2),QPoint(max_pos,c.y() +1));
-    }else{
-
-        span_rect = QRect(QPoint(c.x() -2,min_pos),QPoint(c.x() +1,max_pos));
+    if (opt.orientation == Qt::Horizontal)
+    {
+        span_rect = QRect(QPoint(min_pos, c.y() - 2), QPoint(max_pos, c.y() + 1));
     }
+    else
+    {
+
+        span_rect = QRect(QPoint(c.x() - 2, min_pos), QPoint(c.x() + 1, max_pos));
+    }
+
+    if (opt.orientation == Qt::Horizontal)
+        groove.adjust(0, 0, -1, 0);
+    else
+        groove.adjust(0, 0, 0, -1);
+
+    QColor highlight = palette().color(QPalette::Highlight);
+    painter.setBrush(QBrush(highlight));
+    painter.setPen(QPen(highlight, 0));
+    painter.drawRect(span_rect.intersected(groove));
+
+    delete &opt;
+    for (int value = _low; value < _high; value++)
+    {
+       
+    QStyleOptionSlider opt;
+    this->initStyleOption(&opt);
+
+ 
+        opt.subControls = QStyle::SC_SliderHandle;
+    
+    if (this->tickPosition() != this->NoTicks)
+    {
+        opt.subControls |= QStyle::SC_SliderTickmarks;
+    }
+
+    if (this->pressed_control){
+        opt.activeSubControls = pressed_control;
+    }else{
+        opt.activeSubControls = hover_control;
+    }
+    opt.sliderPosition = value;
+    opt.sliderValue = value;
+    styleSlide->drawComplexControl(QStyle::CC_Slider,&opt,&painter,this);
+       
+    }
+    
 }
 
 int RangeSlider::pick(QPoint pt)
