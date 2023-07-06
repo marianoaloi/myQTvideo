@@ -70,7 +70,7 @@ void RangeSlider::paintEvent(QPaintEvent *ev)
     int min_pos = min(low_pos, high_pos);
     int max_pos = max(low_pos, high_pos);
 
-    c = QRect(low_rect.center(),high_rect.center()).center();
+    QPoint c = QRect(low_rect.center(),high_rect.center()).center();
 }
 
 int RangeSlider::pick(QPoint pt)
