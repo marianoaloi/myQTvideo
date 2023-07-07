@@ -28,6 +28,7 @@ public:
 private:
     Ui::MVideo *ui;
     QString directory;
+    RangeSlider *slider;
 };
 
 #endif // MVIDEO_H

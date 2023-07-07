@@ -7,8 +7,13 @@ MVideo::MVideo(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    RangeSlider slider;
-    ui->sliderPanel->addWidget(&slider);
+    RangeSlider *slider = new RangeSlider(this);
+    slider->setOrientation(Qt::Orientation::Horizontal);
+    slider->setObjectName("slider");
+    slider->setRange(0,0);
+    // slider.sliderMoved(e)
+    // connect(slider, &RangeSlider);
+    ui->sliderPanel->addWidget(slider);
 }
 
 MVideo::~MVideo()

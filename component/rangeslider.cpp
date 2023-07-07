@@ -1,7 +1,15 @@
 #include "rangeslider.h"
 
+
+#include <QPainter>
+#include <QStyleOptionSlider>
+#include <QApplication>
+#include <QPalette>
+#include <algorithm>
+
 int _low, _hight;
-RangeSlider::RangeSlider() // Add superclass dependnece
+RangeSlider::RangeSlider(QWidget *parent)
+:QSlider(parent)
 {
 
     this->_low = this->minimum();
@@ -203,6 +211,13 @@ void RangeSlider::mouseMoveEvent(QMouseEvent *ev)
             new_pos = _low + 1;
         _high = new_pos;
     }
+
+    click_offset = new_pos;
+
+    this->update();
+
+    emit sliderMovedMaloi(new_pos);
+    emit sliderMovedDouble(_low,_high);
 }
 
 int RangeSlider::pixelPosToRangeValue(int pos)

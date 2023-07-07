@@ -2,42 +2,44 @@
 #define RANGESLIDER_H
 
 #include <QSlider>
+#include <QWidget>
 #include <QStyle>
 #include <QWidget>
-#include <QPainter>
-#include <QStyleOptionSlider>
-#include <QApplication>
 #include <QMouseEvent>
-#include <QPalette>
-#include <algorithm>
 
 using namespace std;
 
 class RangeSlider : public QSlider
 {
 
-  virtual  void paintEvent(QPaintEvent *ev);
+  Q_OBJECT
+
+  virtual void paintEvent(QPaintEvent *ev);
   virtual void mouseMoveEvent(QMouseEvent *ev);
   virtual void mousePressEvent(QMouseEvent *ev);
 
 public:
-    RangeSlider();
-    int low();
-    void setLow(int low);
-    int high();
-    void setHigh(int high);
+  explicit RangeSlider(QWidget *parent = nullptr);
+  int low();
+  void setLow(int low);
+  int high();
+  void setHigh(int high);
 
 private:
-    QStyle::SubControl pressed_control;
-    QSlider::TickPosition tick_position;
-    QStyle::SubControl hover_control;
-    int _low;
-    int _high;
-    int tick_interval;
-    int click_offset;
-    int active_slider;
-    int pick(QPoint pt);
-    int pixelPosToRangeValue(int pos);
+  QStyle::SubControl pressed_control;
+  QSlider::TickPosition tick_position;
+  QStyle::SubControl hover_control;
+  int _low;
+  int _high;
+  int tick_interval;
+  int click_offset;
+  int active_slider;
+  int pick(QPoint pt);
+  int pixelPosToRangeValue(int pos);
+
+signals:
+  void sliderMovedMaloi(int pos);
+  void sliderMovedDouble(int low, int high);
 };
 
 #endif // RANGESLIDER_H
