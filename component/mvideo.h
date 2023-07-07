@@ -6,6 +6,8 @@
 #include <component/rangeslider.h>
 #include <QFileDialog>
 #include <iostream>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 
 QT_BEGIN_NAMESPACE
@@ -35,6 +37,7 @@ private:
     QString directory = nullptr;
     RangeSlider *slider = nullptr;
     QMediaPlayer *m_player = nullptr;
+    QMediaPlaylist *m_playlist = nullptr;
 };
 
 #endif // MVIDEO_H
