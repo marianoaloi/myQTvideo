@@ -7,6 +7,11 @@
 #include <QFileDialog>
 #include <iostream>
 
+
+QT_BEGIN_NAMESPACE
+class QMediaPlayer;
+QT_END_NAMESPACE
+
 using namespace std;
 
 namespace Ui
@@ -27,8 +32,9 @@ public:
 
 private:
     Ui::MVideo *ui;
-    QString directory;
-    RangeSlider *slider;
+    QString directory = nullptr;
+    RangeSlider *slider = nullptr;
+    QMediaPlayer *m_player = nullptr;
 };
 
 #endif // MVIDEO_H
