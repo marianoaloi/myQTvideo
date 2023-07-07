@@ -11,8 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Multimedia REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Multimedia REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets Multimedia MultimediaWidgets REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets Multimedia MultimediaWidgets REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -51,6 +51,7 @@ endif()
 
 target_link_libraries(myvideos PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(myvideos PRIVATE Qt${QT_VERSION_MAJOR}::Multimedia)
+target_link_libraries(myvideos PRIVATE Qt${QT_VERSION_MAJOR}::MultimediaWidgets)
 
 set_target_properties(myvideos PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
