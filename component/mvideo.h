@@ -8,6 +8,7 @@
 #include <iostream>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QVideoWidget>
 
 
 QT_BEGIN_NAMESPACE
@@ -38,6 +39,7 @@ private:
     RangeSlider *slider = nullptr;
     QMediaPlayer *m_player = nullptr;
     QMediaPlaylist *m_playlist = nullptr;
+    QVideoWidget *m_videoWidget = nullptr;
 };
 
 #endif // MVIDEO_H

@@ -30,7 +30,12 @@ MVideo::MVideo(QWidget *parent) :
     slider->setRange(0,0);
     // slider.sliderMoved(e)
     // connect(slider, &RangeSlider);
-    // ui->sliderPanel->addWidget(slider);
+    ui->sliderPanel->addWidget(slider);
+
+    QVBoxLayout vbox(this);
+    m_videoWidget = new QVideoWidget(this);
+    vbox.addWidget(m_videoWidget);
+    ui->videoWidget->setLayout(&vbox);
 }
 
 MVideo::~MVideo()
