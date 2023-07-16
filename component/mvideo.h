@@ -1,11 +1,13 @@
 #ifndef MVIDEO_H
 #define MVIDEO_H
 
-#include <QWidget>
 #include <string>
-#include <component/rangeslider.h>
-#include <QFileDialog>
 #include <iostream>
+
+#include <component/rangeslider.h>
+
+#include <QWidget>
+#include <QFileDialog>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
 #include <QVideoWidget>
@@ -15,7 +17,7 @@ QT_BEGIN_NAMESPACE
 class QMediaPlayer;
 QT_END_NAMESPACE
 
-using namespace std;
+// using namespace std;
 
 namespace Ui
 {
