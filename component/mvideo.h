@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <filesystem>
 
 #include <component/rangeslider.h>
 
@@ -18,6 +19,7 @@ class QMediaPlayer;
 QT_END_NAMESPACE
 
 using namespace std;
+namespace fs = std::filesystem;
 
 namespace Ui
 {

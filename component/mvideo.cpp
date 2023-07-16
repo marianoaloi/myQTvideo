@@ -8,7 +8,6 @@
 #include <QMediaMetaData>
 
 
-#include <filesystem>
 
 MVideo::MVideo(QWidget *parent) : QWidget(parent),
                                   ui(new Ui::MVideo)
