@@ -14,7 +14,7 @@ class RangeSlider : public QSlider
 
   Q_OBJECT
 
-  virtual void paintEvent(QPaintEvent *ev);
+  void paintEvent(QPaintEvent *ev) override;
   virtual void mouseMoveEvent(QMouseEvent *ev);
   virtual void mousePressEvent(QMouseEvent *ev);
 

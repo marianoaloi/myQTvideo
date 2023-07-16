@@ -35,12 +35,13 @@ MVideo::MVideo(QWidget *parent) : QWidget(parent),
     // connect(slider, &RangeSlider);
     ui->sliderPanel->addWidget(slider);
 
-    QVBoxLayout vbox(this);
-    m_videoWidget = new QVideoWidget(this);
-    m_player->setVideoOutput(m_videoWidget);
-    m_videoWidget->show();
-    vbox.addWidget(m_videoWidget);
-    ui->videoWidget->setLayout(&vbox);
+    // QVBoxLayout vbox(this);
+    // m_videoWidget = new QVideoWidget(this);
+    // m_videoWidget->resize(1051, 731);
+    m_player->setVideoOutput(ui->videoWidget);
+    // vbox.addWidget(m_videoWidget);
+    // ui->videoWidget->setLayout(&vbox);
+    ui->videoWidget->show();
 }
 
 MVideo::~MVideo()

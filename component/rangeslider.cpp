@@ -48,7 +48,7 @@ void RangeSlider::setHigh(int high)
 
 void RangeSlider::paintEvent(QPaintEvent *ev)
 {
-    QPainter painter;
+    QPainter painter(this);
     QStyle *styleSlide = QApplication::style();
     QStyleOptionSlider opt;
     this->initStyleOption(&opt);
