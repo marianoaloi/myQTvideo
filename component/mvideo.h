@@ -29,6 +29,10 @@ class MVideo : public QWidget
 public slots:
     void openVideo();
 
+private slots:
+
+    // void playlistPositionChanged(int);
+
 public:
     explicit MVideo(QWidget *parent = nullptr);
     ~MVideo();
@@ -40,6 +44,15 @@ private:
     QMediaPlayer *m_player = nullptr;
     QMediaPlaylist *m_playlist = nullptr;
     QVideoWidget *m_videoWidget = nullptr;
+
+
+    // HistogramWidget *m_videoHistogram = nullptr;
+    // HistogramWidget *m_audioHistogram = nullptr;
+    // PlaylistModel *m_playlistModel = nullptr;
+    // QAbstractItemView *m_playlistView = nullptr;
+
+
+    void clearHistogram();
 };
 
 #endif // MVIDEO_H

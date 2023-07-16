@@ -14,7 +14,7 @@ MVideo::MVideo(QWidget *parent) :
     ui->setupUi(this);
 
     //! [create-objs]
-    m_player = new QMediaPlayer(this);
+    m_player = new QMediaPlayer(this,QMediaPlayer::VideoSurface);
     m_player->setAudioRole(QAudio::VideoRole);
     qInfo() << "Supported audio roles:";
     for (QAudio::Role role : m_player->supportedAudioRoles())
@@ -22,6 +22,8 @@ MVideo::MVideo(QWidget *parent) :
     // owned by PlaylistModel
     m_playlist = new QMediaPlaylist();
     m_player->setPlaylist(m_playlist);
+
+    // connect(m_playlist, &QMediaPlaylist::currentIndexChanged, this, &MVideo::playlistPositionChanged);
 //! [create-objs]
 
     RangeSlider *slider = new RangeSlider(this);
@@ -34,6 +36,8 @@ MVideo::MVideo(QWidget *parent) :
 
     QVBoxLayout vbox(this);
     m_videoWidget = new QVideoWidget(this);
+    m_player->setVideoOutput(m_videoWidget);
+    m_videoWidget->show();
     vbox.addWidget(m_videoWidget);
     ui->videoWidget->setLayout(&vbox);
 }
@@ -49,5 +53,19 @@ void MVideo::openVideo(){
     directory = filename.getExistingDirectory(this,"Open Video", directory,QFileDialog::Option::ShowDirsOnly);
     if(!directory.isEmpty()){
     cout << directory.toStdString() << "\n";
+    m_player->setMedia(QMediaContent(QUrl().fromLocalFile("/home/maloi/Videos/Rosângela, A Mulher Maravilha (1080p_30fps_H264-128kbit_AAC).mp4")));
+    m_player->play();
     }
 }
+
+// void MVideo::playlistPositionChanged(int currentItem)
+// {
+//     clearHistogram();
+//     m_playlistView->setCurrentIndex(m_playlistModel->index(currentItem, 0));
+// }
+
+// void MVideo::clearHistogram()
+// {
+//     QMetaObject::invokeMethod(m_videoHistogram, "processFrame", Qt::QueuedConnection, Q_ARG(QVideoFrame, QVideoFrame()));
+//     QMetaObject::invokeMethod(m_audioHistogram, "processBuffer", Qt::QueuedConnection, Q_ARG(QAudioBuffer, QAudioBuffer()));
+// }
