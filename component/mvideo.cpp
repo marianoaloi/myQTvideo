@@ -7,14 +7,17 @@
 #include <QAudioProbe>
 #include <QMediaMetaData>
 
-MVideo::MVideo(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::MVideo)
+
+#include <filesystem>
+namespace fs = std::filesystem;
+
+MVideo::MVideo(QWidget *parent) : QWidget(parent),
+                                  ui(new Ui::MVideo)
 {
     ui->setupUi(this);
 
     //! [create-objs]
-    m_player = new QMediaPlayer(this,QMediaPlayer::VideoSurface);
+    m_player = new QMediaPlayer(this, QMediaPlayer::VideoSurface);
     m_player->setAudioRole(QAudio::VideoRole);
     qInfo() << "Supported audio roles:";
     for (QAudio::Role role : m_player->supportedAudioRoles())
@@ -24,12 +27,12 @@ MVideo::MVideo(QWidget *parent) :
     m_player->setPlaylist(m_playlist);
 
     // connect(m_playlist, &QMediaPlaylist::currentIndexChanged, this, &MVideo::playlistPositionChanged);
-//! [create-objs]
+    //! [create-objs]
 
     RangeSlider *slider = new RangeSlider(this);
     slider->setOrientation(Qt::Orientation::Horizontal);
     slider->setObjectName("slider");
-    slider->setRange(0,0);
+    slider->setRange(0, 0);
     // slider.sliderMoved(e)
     // connect(slider, &RangeSlider);
     ui->sliderPanel->addWidget(slider);
@@ -47,14 +50,20 @@ MVideo::~MVideo()
     delete ui;
 }
 
-void MVideo::openVideo(){
+void MVideo::openVideo()
+{
     QFileDialog filename(this);
     filename.setFileMode(QFileDialog::FileMode::Directory);
-    directory = filename.getExistingDirectory(this,"Open Video", directory,QFileDialog::Option::ShowDirsOnly);
-    if(!directory.isEmpty()){
-    cout << directory.toStdString() << "\n";
-    m_player->setMedia(QMediaContent(QUrl().fromLocalFile("/home/maloi/Videos/Rosângela, A Mulher Maravilha (1080p_30fps_H264-128kbit_AAC).mp4")));
-    m_player->play();
+    directory = filename.getExistingDirectory(this, "Open Video", directory, QFileDialog::Option::ShowDirsOnly);
+    if (!directory.isEmpty())
+    {
+        cout << directory.toStdString() << "\n";
+        for (const auto &entry : fs::directory_iterator(directory.toStdString()))
+        {
+            cout << entry.path() << "\n"<< endl;
+            m_player->setMedia(QMediaContent(QUrl().fromLocalFile(entry.path())));
+            m_player->play();
+        }
     }
 }
 
