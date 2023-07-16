@@ -7,8 +7,6 @@
 #include <QAudioProbe>
 #include <QMediaMetaData>
 
-
-
 MVideo::MVideo(QWidget *parent) : QWidget(parent),
                                   ui(new Ui::MVideo)
 {
@@ -24,6 +22,16 @@ MVideo::MVideo(QWidget *parent) : QWidget(parent),
     m_playlist = new QMediaPlaylist();
     m_player->setPlaylist(m_playlist);
 
+    connect(m_player, &QMediaPlayer::positionChanged, this, &MVideo::setPossition);
+    connect(m_player, &QMediaPlayer::durationChanged, this, &MVideo::durationChanged);
+    connect(m_player, &QMediaPlayer::mediaStatusChanged, this, &MVideo::mediastateChanged);
+    // connect(m_player, QOverload<>::of(&QMediaPlayer::metaDataChanged), this, &MVideo::metaDataChanged);
+    // connect(m_playlist, &QMediaPlaylist::currentIndexChanged, this, &MVideo::playlistPositionChanged);
+    // connect(m_player, &QMediaPlayer::bufferStatusChanged, this, &MVideo::bufferingProgress);
+    // connect(m_player, &QMediaPlayer::videoAvailableChanged, this, &MVideo::videoAvailableChanged);
+    // connect(m_player, QOverload<QMediaPlayer::Error>::of(&QMediaPlayer::error), this, &MVideo::displayErrorMessage);
+    // connect(m_player, &QMediaPlayer::stateChanged, this, &MVideo::stateChanged);
+
     // connect(m_playlist, &QMediaPlaylist::currentIndexChanged, this, &MVideo::playlistPositionChanged);
     //! [create-objs]
 
@@ -32,15 +40,11 @@ MVideo::MVideo(QWidget *parent) : QWidget(parent),
     slider->setObjectName("slider");
     slider->setRange(0, 0);
     // slider.sliderMoved(e)
-    // connect(slider, &RangeSlider);
+    connect(slider, &RangeSlider::sliderMoved, this, &MVideo::setPossition);
+    connect(slider, &RangeSlider::sliderMovedMaloi, this, &MVideo::setPossition);
     ui->sliderPanel->addWidget(slider);
 
-    // QVBoxLayout vbox(this);
-    // m_videoWidget = new QVideoWidget(this);
-    // m_videoWidget->resize(1051, 731);
     m_player->setVideoOutput(ui->videoWidget);
-    // vbox.addWidget(m_videoWidget);
-    // ui->videoWidget->setLayout(&vbox);
     ui->videoWidget->show();
 }
 
@@ -53,19 +57,53 @@ void MVideo::openVideo()
 {
     QFileDialog filename(this);
     filename.setFileMode(QFileDialog::FileMode::Directory);
+    filename.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
     directory = filename.getExistingDirectory(this, "Open Video", directory, QFileDialog::Option::ShowDirsOnly);
     if (!directory.isEmpty())
     {
         cout << directory.toStdString() << "\n";
         QDir qdirectory(directory);
-        QFileInfoList images = qdirectory.entryInfoList(QStringList() << "*.mp4" << "*.JPG",QDir::Files);
-        foreach(QFileInfo entry, images) 
+        QFileInfoList images = qdirectory.entryInfoList(QStringList() << "*.mp4"
+                                                                      << "*.JPG",
+                                                        QDir::Files);
+        foreach (QFileInfo entry, images)
         {
-            cout << entry.filePath().toStdString() << "\n"<< endl;
-            m_player->setMedia(QMediaContent(QUrl().fromLocalFile(entry.filePath())));
-            m_player->play();
+            cout << entry.filePath().toStdString() << "\n"
+                 << endl;
+            this->openVideo(entry.filePath());
         }
     }
+}
+
+void MVideo::openVideo(QString path)
+{
+    m_player->setMedia(QMediaContent(QUrl().fromLocalFile(path)));
+    m_player->play();
+}
+
+void MVideo::setPossition(int possition)
+{
+    this->m_player->setPosition(possition);
+}
+int MVideo::getPossition()
+{
+    return this->m_player->position();
+}
+
+void MVideo::durationChanged(int durationInt)
+{
+    durationInt = durationInt - 100;
+    slider->setMinimum(0);
+    this->slider->activeSlider(0);
+    this->slider->setMaximum(durationInt);
+    this->duration = durationInt;
+}
+void MVideo::positionChanged(int possition)
+{
+    this->slider->setValue(possition);
+}
+void MVideo::mediastateChanged(int possition)
+{
 }
 
 // void MVideo::playlistPositionChanged(int currentItem)
