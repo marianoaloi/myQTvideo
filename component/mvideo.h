@@ -17,7 +17,7 @@ QT_BEGIN_NAMESPACE
 class QMediaPlayer;
 QT_END_NAMESPACE
 
-// using namespace std;
+using namespace std;
 
 namespace Ui
 {

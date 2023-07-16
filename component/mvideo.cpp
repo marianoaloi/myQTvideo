@@ -9,7 +9,6 @@
 
 
 #include <filesystem>
-namespace fs = std::filesystem;
 
 MVideo::MVideo(QWidget *parent) : QWidget(parent),
                                   ui(new Ui::MVideo)
@@ -58,7 +57,7 @@ void MVideo::openVideo()
     if (!directory.isEmpty())
     {
         cout << directory.toStdString() << "\n";
-        for (const auto &entry : fs::directory_iterator(directory.toStdString()))
+        for (const auto &entry : std::filesystem::directory_iterator(directory.toStdString()))
         {
             cout << entry.path() << "\n"<< endl;
             m_player->setMedia(QMediaContent(QUrl().fromLocalFile(entry.path())));
