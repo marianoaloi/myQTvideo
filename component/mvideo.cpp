@@ -57,11 +57,11 @@ void MVideo::openVideo()
     {
         cout << directory.toStdString() << "\n";
         QDir qdirectory(directory);
-        QStringList images = qdirectory.entryList(QStringList() << "*.mp4" << "*.JPG",QDir::Files);
-        foreach(QString entry, images) 
+        QFileInfoList images = qdirectory.entryInfoList(QStringList() << "*.mp4" << "*.JPG",QDir::Files);
+        foreach(QFileInfo entry, images) 
         {
-            cout << entry.toStdString() << "\n"<< endl;
-            m_player->setMedia(QMediaContent(QUrl().fromLocalFile(entry)));
+            cout << entry.filePath().toStdString() << "\n"<< endl;
+            m_player->setMedia(QMediaContent(QUrl().fromLocalFile(entry.filePath())));
             m_player->play();
         }
     }
