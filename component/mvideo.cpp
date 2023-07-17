@@ -39,6 +39,7 @@ MVideo::MVideo(QWidget *parent) : QWidget(parent),
     slider->setOrientation(Qt::Orientation::Horizontal);
     slider->setObjectName("slider");
     slider->setRange(0, 0);
+    slider->setMinimum(0);
     // slider.sliderMoved(e)
     connect(slider, &RangeSlider::sliderMoved, this, &MVideo::setPossition);
     connect(slider, &RangeSlider::sliderMovedMaloi, this, &MVideo::setPossition);
@@ -57,7 +58,7 @@ void MVideo::openVideo()
 {
     QFileDialog filename(this);
     filename.setFileMode(QFileDialog::FileMode::Directory);
-    filename.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
+    // filename.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath()));
     directory = filename.getExistingDirectory(this, "Open Video", directory, QFileDialog::Option::ShowDirsOnly);
     if (!directory.isEmpty())
     {
@@ -83,7 +84,7 @@ void MVideo::openVideo(QString path)
 
 void MVideo::setPossition(int possition)
 {
-    this->m_player->setPosition(possition);
+    // this->m_player->setPosition(possition);
 }
 int MVideo::getPossition()
 {
@@ -93,7 +94,6 @@ int MVideo::getPossition()
 void MVideo::durationChanged(int durationInt)
 {
     durationInt = durationInt - 100;
-    slider->setMinimum(0);
     this->slider->activeSlider(0);
     this->slider->setMaximum(durationInt);
     this->duration = durationInt;
