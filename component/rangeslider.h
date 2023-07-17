@@ -31,11 +31,11 @@ private:
   QStyle::SubControl pressed_control;
   QSlider::TickPosition tick_position;
   QStyle::SubControl hover_control;
-  int _low;
-  int _high;
-  int tick_interval;
-  int click_offset;
-  int active_slider;
+  int _low=0;
+  int _high=0;
+  int tick_interval=0;
+  int click_offset=0;
+  int active_slider=0;
   int pick(QPoint pt);
   int pixelPosToRangeValue(int pos);
 

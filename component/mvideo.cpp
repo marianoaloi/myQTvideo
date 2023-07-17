@@ -35,7 +35,7 @@ MVideo::MVideo(QWidget *parent) : QWidget(parent),
     // connect(m_playlist, &QMediaPlaylist::currentIndexChanged, this, &MVideo::playlistPositionChanged);
     //! [create-objs]
 
-    RangeSlider *slider = new RangeSlider(this);
+    slider = new RangeSlider(this);
     slider->setOrientation(Qt::Orientation::Horizontal);
     slider->setObjectName("slider");
     slider->setRange(0, 0);
@@ -84,7 +84,7 @@ void MVideo::openVideo(QString path)
 
 void MVideo::setPossition(int possition)
 {
-    // this->m_player->setPosition(possition);
+    this->m_player->setPosition(possition);
 }
 int MVideo::getPossition()
 {
@@ -94,8 +94,8 @@ int MVideo::getPossition()
 void MVideo::durationChanged(int durationInt)
 {
     durationInt = durationInt - 100;
-    this->slider->activeSlider(0);
-    this->slider->setMaximum(durationInt);
+    slider->activeSlider(0);
+    slider->setMaximum(durationInt);
     this->duration = durationInt;
 }
 void MVideo::positionChanged(int possition)

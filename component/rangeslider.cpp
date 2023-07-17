@@ -30,28 +30,28 @@ int RangeSlider::low()
 
 void RangeSlider::setLow(int low)
 {
-    this->_low = low;
-    this->update();
+    _low = low;
+    update();
 }
 
 int RangeSlider::high()
 {
-    return this->_high;
+    return _high;
 }
 
 void RangeSlider::setHigh(int high)
 {
-    this->_high = high;
-    this->update();
+    _high = high;
+    update();
 }
 
 void RangeSlider::activeSlider(int value)
 {
-    this->active_slider = value;
+    active_slider = value;
 }
 int RangeSlider::activeSlider()
 {
-    return this->active_slider;
+    return active_slider;
 }
 
 void RangeSlider::paintEvent(QPaintEvent *ev)
