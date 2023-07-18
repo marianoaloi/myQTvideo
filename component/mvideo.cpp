@@ -3,7 +3,6 @@
 
 #include <QMediaService>
 #include <QMediaPlaylist>
-#include <QVideoProbe>
 #include <QAudioProbe>
 #include <QMediaMetaData>
 
@@ -22,7 +21,7 @@ MVideo::MVideo(QWidget *parent) : QWidget(parent),
     m_playlist = new QMediaPlaylist();
     m_player->setPlaylist(m_playlist);
 
-    connect(m_player, &QMediaPlayer::positionChanged, this, &MVideo::setPossition);
+    connect(m_player, &QMediaPlayer::positionChanged, this, &MVideo::positionChanged);
     connect(m_player, &QMediaPlayer::durationChanged, this, &MVideo::durationChanged);
     connect(m_player, &QMediaPlayer::mediaStatusChanged, this, &MVideo::mediastateChanged);
     // connect(m_player, QOverload<>::of(&QMediaPlayer::metaDataChanged), this, &MVideo::metaDataChanged);
@@ -84,11 +83,11 @@ void MVideo::openVideo(QString path)
 
 void MVideo::setPossition(int possition)
 {
-    this->m_player->setPosition(possition);
+    m_player->setPosition(possition);
 }
 int MVideo::getPossition()
 {
-    return this->m_player->position();
+    return m_player->position();
 }
 
 void MVideo::durationChanged(int durationInt)

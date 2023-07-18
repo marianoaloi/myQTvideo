@@ -36,3 +36,5 @@ build/**
 .vscode/**
 CMakeLists.txt.user*
 CMakeLists.txt.user
+.idea/**
+R
